@@ -13,12 +13,3 @@
     font-size: 15px;
     padding: 12px 0;
 }
-
-.sidebar__list__link {
-    color: #fff;
-}
-
-.sidebar__list__link:hover {
-    text-decoration: none;
-    color: lightgray;
-}

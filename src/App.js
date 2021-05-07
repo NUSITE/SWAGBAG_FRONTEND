@@ -8,6 +8,7 @@ import "./App.css";
 import Navbar from "./shared/components/navbar/navbar";
 import Sidebar from "./shared/components/sidebar/sidebar";
 import Register from "./users/pages/Register/Register";
+import Users from "./users/pages/users/users";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/users">
+            <Users />
           </Route>
           <Redirect to="/" />
         </Switch>

@@ -5,18 +5,23 @@ export const SIDE_BAR = [
         path: '/users'
     },
     {
-        id: 1,
+        id: 2,
         name: 'My Approvals',
         path: '/approvals'
     },
     {
-        id: 1,
+        id: 4,
         name: 'My Orders',
         path: '/orders'
     },
     {
-        id: 1,
+        id: 4,
         name: 'Manage Territories',
         path: '/manageTerritories'
+    },
+    {
+        id: 5,
+        name: 'Settings',
+        path: '/settings'
     }
 ]
