@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import "./App.css";
+import Products from "./products/pages/Product-lists/Products";
 import Navbar from "./shared/components/navbar/navbar";
 import Sidebar from "./shared/components/sidebar/sidebar";
 import Register from "./users/pages/Register/Register";
@@ -18,7 +19,7 @@ function App() {
         <Sidebar />
         <Switch>
           <Route path="/" exact>
-            <div>Welcome to application</div>
+            <Products />
           </Route>
           <Route path="/register">
             <Register />
