@@ -15,3 +15,7 @@
     text-decoration: none;
     color: #2d2b2b;
 }
+
+.products__container {
+    width: 90rem;
+}

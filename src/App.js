@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import "./App.css";
+import AddProduct from "./products/pages/Add-Product/AddProduct";
 import Products from "./products/pages/Product-lists/Products";
 import Navbar from "./shared/components/navbar/navbar";
 import Sidebar from "./shared/components/sidebar/sidebar";
@@ -21,11 +22,14 @@ function App() {
           <Route path="/" exact>
             <Products />
           </Route>
-          <Route path="/register">
+          <Route path="/register" exact>
             <Register />
           </Route>
-          <Route path="/users">
+          <Route path="/users" exact>
             <Users />
+          </Route>
+          <Route path="/addProduct" exact>
+            <AddProduct />
           </Route>
           <Redirect to="/" />
         </Switch>
