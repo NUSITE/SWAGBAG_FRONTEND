@@ -24,7 +24,6 @@ const Products = () => {
     dispatch(setProducts(response.data.products));
   };
 
-  console.log("Alll Products", products);
   return (
     <div className="products__container m-4">
       <div className="text-right">

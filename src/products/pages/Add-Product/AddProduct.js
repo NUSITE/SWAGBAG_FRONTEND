@@ -1,8 +1,12 @@
 import axios from "axios";
-import React from "react";
-import { Input, Label, Button, Header } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Input, Label, Button, Header, Portal, Segment, Dimmer, Loader } from "semantic-ui-react";
 
 const AddProduct = () => {
+
+  let [openPortal, setOpenPortal] = useState(false);
+  let [message, setMessage] = useState("");
+  let [loaderActive, setLoaderActive] = useState(false);
   const product = {
     productTitle: null,
     currency: "USD",
@@ -23,26 +27,37 @@ const AddProduct = () => {
         }
       });
     }
-    console.log("Product", product, event);
   }
 
   function textValueChange(event, property) {
     product[property] = event.target.value;
-    console.log("Product", product);
   }
 
   const productAddition = async (event) => {
+    setLoaderActive(loaderActive = true);
     let response = await axios
       .post(
         "https://swagbag-node-app.herokuapp.com/api/product/addProduct",
         product
       )
       .catch((error) => console.error(error));
-    console.log("Response", response);
+    if (response) {
+      setMessage(message = response.data.message);
+      setOpenPortal(openPortal = true);
+    }
+    setLoaderActive(loaderActive = false);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const handleClose = () => {
+    setOpenPortal(openPortal = false);
   };
 
   return (
     <div className="products__container m-4 d-flex flex-column text-center">
+      <Dimmer active={loaderActive}>
+        <Loader />
+      </Dimmer>
       <Header size="huge" className="text-center">
         Add Product
       </Header>
@@ -139,6 +154,24 @@ const AddProduct = () => {
           Submit
         </Button>
       </div>
+      <Portal open={openPortal} onClose={handleClose}>
+      <Segment className="text-center"
+              style={{
+                left: '47%',
+                position: 'fixed',
+                top: '42%',
+                background: '#b2adb7',
+                zIndex: 1000,
+              }}
+            >
+              <Header>{message}</Header>
+              <Button
+                content='Close Portal'
+                negative
+                onClick={handleClose}
+              />
+            </Segment>
+      </Portal>
     </div>
   );
 };
