@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
-import { LoggedInUserReducer, TokenReducer } from "./userLoginReducer";
+import { LoggedInUserReducer, TokenReducer, AuthorizationReducer } from "./userLoginReducer";
 
 export const reducers = combineReducers({
   LoggedInUser: LoggedInUserReducer,
-  jwtToken: TokenReducer
+  jwtToken: TokenReducer,
+  authorization: AuthorizationReducer
 });

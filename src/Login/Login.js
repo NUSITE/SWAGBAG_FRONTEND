@@ -11,6 +11,7 @@ import {
   Message,
 } from "semantic-ui-react";
 import {
+  setAuthorization,
   setBearerToken,
   setLoggedInUser,
 } from "../Redux/Actions/userLoginActions";
@@ -30,7 +31,7 @@ const Login = () => {
 
   const loginAPICall = async () => {
     await axios
-      .post("https://swagbag-node-app.herokuapp.com/api/user/login", {
+      .post("https://swagbag-node-app.herokuapp.com/user/login", {
         userEmail,
         password,
       })
@@ -38,6 +39,7 @@ const Login = () => {
         console.log("Response", response);
         dispatch(setLoggedInUser(response.data.user));
         dispatch(setBearerToken(response.data.token));
+        dispatch(setAuthorization(true));
         localStorage.setItem("token", response.data.token);
         history.push("/");
       })

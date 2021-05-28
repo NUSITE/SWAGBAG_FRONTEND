@@ -17,3 +17,12 @@ export const TokenReducer = (state={}, {type, payload}) => {
             return state;
     }
 }
+
+export const AuthorizationReducer = (state={}, {type, payload}) => {
+    switch (type) {
+        case ActionTypes.IS_AUTHORISZED:
+            return {isAuth: payload}
+        default:
+            return state;
+    }
+}

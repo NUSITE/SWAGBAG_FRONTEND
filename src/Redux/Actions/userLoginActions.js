@@ -13,3 +13,10 @@ export const setBearerToken = (token) => {
         payload: token
     }
 }
+
+export const setAuthorization = (authorization) => {
+    return {
+        type: ActionTypes.IS_AUTHORISZED,
+        payload: authorization
+    }
+}
