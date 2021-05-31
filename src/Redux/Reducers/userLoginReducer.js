@@ -18,7 +18,7 @@ export const TokenReducer = (state={}, {type, payload}) => {
     }
 }
 
-export const AuthorizationReducer = (state={}, {type, payload}) => {
+export const AuthorizationReducer = (state={isAuth: null}, {type, payload}) => {
     switch (type) {
         case ActionTypes.IS_AUTHORISZED:
             return {isAuth: payload}
@@ -26,3 +26,12 @@ export const AuthorizationReducer = (state={}, {type, payload}) => {
             return state;
     }
 }
+
+export const SessionTimeReducer = (state={sessionTime: null}, {type, payload}) => {
+    switch (type) {
+        case ActionTypes.SESSION_TIMEOUT:
+            return {sessionTime: payload}
+        default:
+            return state;
+    }
+} 

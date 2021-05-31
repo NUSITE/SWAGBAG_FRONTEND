@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -10,10 +11,12 @@ import {
   Header,
   Message,
 } from "semantic-ui-react";
+import { setLoader } from "../Redux/Actions/loaderActions";
 import {
   setAuthorization,
   setBearerToken,
   setLoggedInUser,
+  setSessionTimeout,
 } from "../Redux/Actions/userLoginActions";
 
 const Login = () => {
@@ -30,6 +33,7 @@ const Login = () => {
   };
 
   const loginAPICall = async () => {
+    dispatch(setLoader(true));
     await axios
       .post("https://swagbag-node-app.herokuapp.com/user/login", {
         userEmail,
@@ -39,7 +43,8 @@ const Login = () => {
         console.log("Response", response);
         dispatch(setLoggedInUser(response.data.user));
         dispatch(setBearerToken(response.data.token));
-        dispatch(setAuthorization(true));
+        dispatch(setAuthorization("on"));
+        dispatch(setSessionTimeout(jwtDecode(response.data.token).exp * 1000 - Date.now()));
         localStorage.setItem("token", response.data.token);
         history.push("/");
       })
@@ -47,6 +52,7 @@ const Login = () => {
         console.log("Error", error.response);
         setMessage(error.response.data.message);
       });
+      dispatch(setLoader(false));
   };
 
   return (

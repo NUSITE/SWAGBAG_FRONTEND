@@ -20,3 +20,10 @@ export const setAuthorization = (authorization) => {
         payload: authorization
     }
 }
+
+export const setSessionTimeout = (sessionTime) => {
+    return {
+        type: ActionTypes.SESSION_TIMEOUT,
+        payload: sessionTime
+    }
+}
