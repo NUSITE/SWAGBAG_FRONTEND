@@ -1,89 +1,129 @@
-import axios from "axios";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Modal, Button, Dimmer, Loader } from "semantic-ui-react";
+import jwt from "jsonwebtoken";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import Login from "./pages/Login/Login";
 import {
-  Switch,
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-} from "react-router-dom";
+  setAccessToken,
+  setAuthorization,
+  setuserLoggedIn,
+} from "./Redux/Actions/loginActions";
 import "./App.css";
-import Home from "./pages/Home/Home";
-import Login from "./Login/Login";
-import { setAuthorization } from "./Redux/Actions/userLoginActions";
-import SwagHeader from "./shared/components/SwagHeader/SwagHeader";
-import SwagSidebar from "./shared/components/SwagSidebar/SwagSidebar";
-import { Dimmer, Loader } from "semantic-ui-react";
-import { setLoader } from "./Redux/Actions/loaderActions";
-import { useEffect } from "react";
-
-const token = localStorage.getItem("token");
-const http = axios.create({
-  baseURL: "https://swagbag-node-app.herokuapp.com/api",
-  headers: {
-    "x-access-token": `${token}`,
-  },
-});
-
-function App() {
-  const token = localStorage.getItem("token");
-  console.log("Token", token);
+import axios from "axios";
+const App = () => {
   const dispatch = useDispatch();
-  let isAuth = useSelector((state) => state.authorization.isAuth);
   let isLoading = useSelector((state) => state.loader.isLoading);
+  let user = useSelector((state) => state.loggedInUser.user);
+  let isAuth = useSelector((state) => state.authorization.isAuth);
+  let [showModal, setShowModal] = useState(false);
+  let token = localStorage.getItem("token");
+
+  console.log("User", JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
+    // eslint-disable-next-line no-cond-assign
+    if ((user = {} && localStorage.getItem("user"))) {
+      dispatch(setuserLoggedIn(JSON.parse(localStorage.getItem("user"))));
+    }
     verifyToken();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const verifyToken = async () => {
-    if (token) {
-      dispatch(setLoader(true));
-      await http
-        .get("/verifyToken")
-        .then((response) => {
-          if (response.data.isAuth) {
-            dispatch(setAuthorization("on"));
+  const verifyToken = () => {
+    token = localStorage.getItem("token");
+    if (token !== "null") {
+      console.log("Token", token);
+      jwt.verify(token, "bearer", (error, decoded) => {
+        if (error) {
+          console.log("Wrong token", error);
+          dispatch(setAuthorization(false));
+          dispatch(setAccessToken(""));
+          localStorage.setItem("token", null);
+          console.log("Entering Second");
+          setShowModal(false);
+        } else {
+          console.log("Decoded", decoded);
+          dispatch(setAuthorization(true));
+          if (Date.now() >= decoded.exp * 1000 - 60000) {
+            console.log("Session About expire");
+            setShowModal(true);
           }
-        })
-        .catch((error) => {
-          dispatch(setAuthorization("off"));
-        });
-      dispatch(setLoader(false));
+        }
+      });
     }
   };
 
+  const staySession = async () => {
+    await axios
+      .get(`http://localhost:3200/user/regenerateToken/${user._id}`)
+      .then((response) => {
+        console.log("Response", response);
+        dispatch(setAccessToken(response.data.token));
+        localStorage.setItem("token", response.data.token);
+        dispatch(setAuthorization(true));
+        setShowModal(false);
+      });
+  };
+
+  const logoutSession = async () => {
+    await axios.get(`http://localhost:3200/logout`).then((response) => {
+      console.log(response.data.msg);
+      dispatch(setuserLoggedIn(null));
+      dispatch(setAccessToken(null)); 
+    }).catch((error) => {
+      console.log("Error", error.response.data.msg);
+    })
+  }
+
+  setInterval(() => {
+    verifyToken();
+  }, 1 * 1000 * 60);
+
   return (
-    <Router>
-      <Switch>
-        {isAuth === "off" && (
+    <BrowserRouter>
+      {!isAuth && (
+        <Switch>
           <Route path="/login">
             <Login />
           </Route>
-        )}
-        {isAuth === "off" && <Redirect to="/login"></Redirect>}
-        {isAuth === "on" && (
-          <div className="d-flex">
-            <SwagSidebar />
-            <SwagHeader />
-            <div className="main__content">
-            <Switch>
-              <Route path="/" exact>
-                <Home />
-              </Route>
-              <Redirect to="/"></Redirect>
-            </Switch>
-            </div>
-          </div>
-        )}
-      </Switch>
+          <Redirect to="/login"></Redirect>
+        </Switch>
+      )}
+      {isAuth && (
+        <Switch>
+          <Route path="/" exact>
+            Navigation Occured
+          </Route>
+          <Redirect to="/"></Redirect>
+        </Switch>
+      )}
+      <Modal
+        className="session__close__modal"
+        size="large"
+        open={showModal}
+        onClose={() => console.log("OnClose")}
+      >
+        <Modal.Header>Delete Your Account</Modal.Header>
+        <Modal.Content>
+          <p>Are you sure you want to delete your account</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button negative onClick={logoutSession}>
+            Logout
+          </Button>
+          <Button positive onClick={staySession}>
+            Stay
+          </Button>
+        </Modal.Actions>
+      </Modal>
       {isLoading && (
         <Dimmer active>
           <Loader size="huge">Loading</Loader>
         </Dimmer>
       )}
-    </Router>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

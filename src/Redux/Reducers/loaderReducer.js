@@ -1,13 +1,10 @@
-import { ActionTypes } from "../Constants/action-types";
+import { ActionTypes } from "../constants/ActionTypes";
 
-export const LoaderReducer = (
-  state = { isLoading: false },
-  { type, payload }
-) => {
-  switch (type) {
-    case ActionTypes.SET_LOADER:
-      return { isLoading: payload };
-    default:
-      return state;
-  }
-};
+export const LoaderReducer = (state={}, {type, payload}) => {
+    switch (type) {
+        case ActionTypes.LOADER:
+            return {isLoading: payload}
+        default:
+            return state;
+    }
+}

@@ -21,3 +21,8 @@
     background-color: black;
     height: 90vh;
 } */
+
+.session__close__modal {
+    height: auto !important;
+    position: relative !important;
+}
