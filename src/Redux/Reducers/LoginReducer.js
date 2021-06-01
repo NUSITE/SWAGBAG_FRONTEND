@@ -1,4 +1,4 @@
-import { ActionTypes } from "./../constants/ActionTypes";
+import { ActionTypes } from "../constants/action-types";
 
 export const UserLoginReducer = (state = {}, { type, payload }) => {
   switch (type) {
