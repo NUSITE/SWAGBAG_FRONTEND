@@ -70,7 +70,10 @@ const App = () => {
     await axios.get(`http://localhost:3200/logout`).then((response) => {
       console.log(response.data.msg);
       dispatch(setuserLoggedIn(null));
+      dispatch(setAuthorization(false));
       dispatch(setAccessToken(null)); 
+      localStorage.setItem("token", null);
+      setShowModal(false);
     }).catch((error) => {
       console.log("Error", error.response.data.msg);
     })
@@ -102,7 +105,6 @@ const App = () => {
         className="session__close__modal"
         size="large"
         open={showModal}
-        onClose={() => console.log("OnClose")}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
         <Modal.Content>
