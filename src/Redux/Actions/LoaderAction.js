@@ -1,4 +1,5 @@
-import { ActionTypes } from "./../constants/ActionTypes"
+import { ActionTypes } from "../../action-types"
+
 
 export const setLoader = (isLoading) => {
     return {

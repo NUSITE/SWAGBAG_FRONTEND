@@ -33,9 +33,8 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         dispatch(setAccessToken(response.data.token));
         localStorage.setItem("token", response.data.token);
-        console.log("Entering first");
-        history.push('/');
         dispatch(setAuthorization(true));
+        window.location.reload();
       });
   };
   return (
@@ -75,7 +74,7 @@ const Login = () => {
             </Segment>
           </Form>
           <Message>
-            New to us? <Button secondary>Signup</Button>
+            New to us? <Button secondary>Register</Button>
           </Message>
         </Grid.Column>
       </Grid>

@@ -20,3 +20,9 @@ export const setAuthorization = (authorization) => {
     payload: authorization,
   };
 };
+
+export const clearStore = () => {
+  return {
+    type: ActionTypes.CLEAR_STORE
+  }
+}

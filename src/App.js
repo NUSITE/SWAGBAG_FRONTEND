@@ -6,12 +6,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import {
+  clearStore,
   setAccessToken,
   setAuthorization,
   setuserLoggedIn,
 } from "./Redux/Actions/loginActions";
 import "./App.css";
 import axios from "axios";
+import Home from "./pages/Home/Home";
 const App = () => {
   const dispatch = useDispatch();
   let isLoading = useSelector((state) => state.loader.isLoading);
@@ -19,7 +21,7 @@ const App = () => {
   let isAuth = useSelector((state) => state.authorization.isAuth);
   let [showModal, setShowModal] = useState(false);
   let token = localStorage.getItem("token");
-
+  
   console.log("User", JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
@@ -37,13 +39,15 @@ const App = () => {
       jwt.verify(token, "bearer", (error, decoded) => {
         if (error) {
           console.log("Wrong token", error);
-          dispatch(setAuthorization(false));
-          dispatch(setAccessToken(""));
-          localStorage.setItem("token", null);
-          console.log("Entering Second");
+          // dispatch(setAuthorization(false));
+          // dispatch(setAccessToken(null));
+          dispatch(clearStore());
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
           setShowModal(false);
         } else {
           console.log("Decoded", decoded);
+          dispatch(setAccessToken(token));
           dispatch(setAuthorization(true));
           if (Date.now() >= decoded.exp * 1000 - 60000) {
             console.log("Session About expire");
@@ -69,10 +73,12 @@ const App = () => {
   const logoutSession = async () => {
     await axios.get(`http://localhost:3200/logout`).then((response) => {
       console.log(response.data.msg);
-      dispatch(setuserLoggedIn(null));
-      dispatch(setAuthorization(false));
-      dispatch(setAccessToken(null)); 
-      localStorage.setItem("token", null);
+      localStorage.removeItem("token")
+      localStorage.removeItem("user");
+      // dispatch(setuserLoggedIn(null));
+      // dispatch(setAccessToken(null)); 
+      // dispatch(setAuthorization(false));
+      dispatch(clearStore());
       setShowModal(false);
     }).catch((error) => {
       console.log("Error", error.response.data.msg);
@@ -96,7 +102,7 @@ const App = () => {
       {isAuth && (
         <Switch>
           <Route path="/" exact>
-            Navigation Occured
+            <Home />
           </Route>
           <Redirect to="/"></Redirect>
         </Switch>
