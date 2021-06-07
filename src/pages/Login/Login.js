@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
 import {
   Grid,
   Header,
@@ -18,7 +17,6 @@ import {
 } from "../../Redux/Actions/loginActions";
 
 const Login = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [userEmail, setUserEmail] = useState("");
   const [password, setpassword] = useState("");

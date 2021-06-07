@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import { ActionTypes } from "../../action-types";
 import { LoaderReducer } from "./LoaderReducer";
 import { AuthorizationReducer, TokenReducer, UserLoginReducer } from "./LoginReducer";
 import { SetProductsReducers } from './ProductsReducers'
