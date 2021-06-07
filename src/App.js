@@ -39,8 +39,6 @@ const App = () => {
       jwt.verify(token, "bearer", (error, decoded) => {
         if (error) {
           console.log("Wrong token", error);
-          // dispatch(setAuthorization(false));
-          // dispatch(setAccessToken(null));
           dispatch(clearStore());
           localStorage.removeItem("token");
           localStorage.removeItem("user");
@@ -50,7 +48,6 @@ const App = () => {
           dispatch(setAccessToken(token));
           dispatch(setAuthorization(true));
           if (Date.now() >= decoded.exp * 1000 - 60000) {
-            console.log("Session About expire");
             setShowModal(true);
           }
         }
@@ -75,9 +72,6 @@ const App = () => {
       console.log(response.data.msg);
       localStorage.removeItem("token")
       localStorage.removeItem("user");
-      // dispatch(setuserLoggedIn(null));
-      // dispatch(setAccessToken(null)); 
-      // dispatch(setAuthorization(false));
       dispatch(clearStore());
       setShowModal(false);
     }).catch((error) => {
@@ -112,9 +106,9 @@ const App = () => {
         size="large"
         open={showModal}
       >
-        <Modal.Header>Delete Your Account</Modal.Header>
+        <Modal.Header>Log out</Modal.Header>
         <Modal.Content>
-          <p>Are you sure you want to delete your account</p>
+          <p>Your Session is about expire!!! Please confirm if you want to stay</p>
         </Modal.Content>
         <Modal.Actions>
           <Button negative onClick={logoutSession}>

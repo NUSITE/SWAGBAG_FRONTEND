@@ -1,6 +1,7 @@
 .table__cell {
     border: 0 !important;
     text-align: center !important;
+    font-size: 12px;
 }
 
 .even__table__row {
@@ -11,4 +12,5 @@
     padding-top: 20px !important;
     border: 0 !important;
     text-align: center !important;
+    font-weight: 500;
 }
