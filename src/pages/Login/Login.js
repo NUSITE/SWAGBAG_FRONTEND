@@ -12,7 +12,7 @@ import {
 } from "semantic-ui-react";
 import {
   setAccessToken,
-    setAuthorization,
+  setAuthorization,
   setuserLoggedIn,
 } from "../../Redux/Actions/loginActions";
 
@@ -20,6 +20,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [userEmail, setUserEmail] = useState("");
   const [password, setpassword] = useState("");
+  const [message, setMessage]=useState("");
   const loginApiCall = async () => {
     await axios
       .post("http://localhost:3200/user/login", {
@@ -33,6 +34,11 @@ const Login = () => {
         localStorage.setItem("token", response.data.token);
         dispatch(setAuthorization(true));
         window.location.reload();
+      }).catch(error => {
+        console.log(error.response);
+        if (error.response.data.message) {
+          setMessage(error.response.data.message);
+        }
       });
   };
   return (
@@ -42,9 +48,14 @@ const Login = () => {
         style={{ height: "100vh" }}
         verticalAlign="middle"
       >
+        
         <Grid.Column style={{ maxWidth: 450 }}>
+        {message && <Message
+          error
+          header={message}
+        />}
           <Header as="h2" color="teal" textAlign="center">
-            <Image src="/logo.png" /> Log-in to your account
+            Log-in to your account
           </Header>
           <Form size="large">
             <Segment stacked>
