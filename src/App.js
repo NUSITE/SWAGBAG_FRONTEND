@@ -15,12 +15,15 @@ import "./App.css";
 import axios from "axios";
 import Home from "./pages/Home/Home";
 import AddProduct from "./pages/AddProduct/AddProduct";
+import Navbar from "./components/Navbar/Navbar";
+import SideBar from "./components/Sidebar/SideBar";
 const App = () => {
   const dispatch = useDispatch();
   let isLoading = useSelector((state) => state.loader.isLoading);
   let user = useSelector((state) => state.loggedInUser.user);
   let isAuth = useSelector((state) => state.authorization.isAuth);
   let [showModal, setShowModal] = useState(false);
+  let showSidebar = useSelector((state) => state.sidebar.showSidebar);
   let token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -82,25 +85,31 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {!isAuth && (
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Redirect to="/login"></Redirect>
-        </Switch>
-      )}
-      {isAuth && (
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/addproduct" exact>
-            <AddProduct />
-          </Route>
-          <Redirect to="/"></Redirect>
-        </Switch>
-      )}
+      <Switch>
+        {!isAuth && (
+          <div>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Redirect to="/login"></Redirect>
+          </div>
+        )}
+        {isAuth && (
+          <div>
+            <Navbar />
+            {showSidebar && <SideBar />}
+            <div>
+              <Route path="/" exact>
+                <Home />
+              </Route>
+              <Route path="/addproduct" exact>
+                <AddProduct />
+              </Route>
+              <Redirect to="/"></Redirect>
+            </div>
+          </div>
+        )}
+      </Switch>
       <Modal className="session__close__modal" size="large" open={showModal}>
         <Modal.Header>Log out</Modal.Header>
         <Modal.Content>

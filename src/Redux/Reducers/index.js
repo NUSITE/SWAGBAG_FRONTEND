@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-import { LoaderReducer } from "./LoaderReducer";
+import { LoaderReducer, ShowSidebarReducer } from "./LoaderReducer";
 import { AuthorizationReducer, TokenReducer, UserLoginReducer } from "./LoginReducer";
-import { SetProductsReducers } from './ProductsReducers'
+import { SetProductsReducers, SearchedProductsReducers } from './ProductsReducers'
 
 
 const reducers = combineReducers({
@@ -9,7 +9,9 @@ const reducers = combineReducers({
     accessToken: TokenReducer,
     authorization: AuthorizationReducer,
     loader: LoaderReducer,
-    fetchedProducts: SetProductsReducers
+    fetchedProducts: SetProductsReducers,
+    sidebar: ShowSidebarReducer,
+    searchedProducts: SearchedProductsReducers
 })
 
 

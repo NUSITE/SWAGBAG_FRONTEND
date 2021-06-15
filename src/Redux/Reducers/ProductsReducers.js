@@ -10,3 +10,14 @@ export const SetProductsReducers = (state = {}, { type, payload }) => {
       return state;
   }
 };
+
+export const SearchedProductsReducers = (state={}, {type, payload}) => {
+  switch (type) {
+    case ActionTypes.SEARCHED_PRODUCTS:
+      return { ...state, products: payload };
+    case ActionTypes.CLEAR_STORE:
+      return { products: null };
+    default:
+      return state;
+  }
+}

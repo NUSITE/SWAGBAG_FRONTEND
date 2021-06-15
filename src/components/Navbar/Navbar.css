@@ -1,0 +1,31 @@
+.navbar__content {
+    border-radius: 0 !important;
+    height: 5rem;
+}
+
+.navbar__items {
+    left: 15% !important;
+    position: fixed;
+    height: 5rem;
+}
+
+.sidebar__icon {
+    font-size: 1.5rem;
+}
+
+.ui.icon.input>input, .ui.fluid.dropdown {
+    border-radius: 0 !important;
+    height: 38px !important;
+}
+
+.ui.search.selection.dropdown>input.search {
+    font-size: 12px !important;
+}
+.ui.search>.results {
+    top: 80% !important;
+}
+
+.country__dropdown.search.dropdown>.text{
+    font-size: 12px;
+    width: 72px !important;
+}

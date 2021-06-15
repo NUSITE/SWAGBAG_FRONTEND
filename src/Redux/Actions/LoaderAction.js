@@ -7,3 +7,10 @@ export const setLoader = (isLoading) => {
         payload: isLoading
     }
 }
+
+export const setOpenOrCloseSidebar = (showSidebar) => {
+    return {
+        type: ActionTypes.SHOW_SIDEBAR,
+        payload: showSidebar
+    }
+}

@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import {
   Grid,
   Header,
-  Image,
   Form,
   Segment,
   Button,
