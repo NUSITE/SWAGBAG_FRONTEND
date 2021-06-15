@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import httpAxios from "../../axios.intercepors";
-import { Form, Header, Label } from "semantic-ui-react";
+import { Form, Header, Label, Message } from "semantic-ui-react";
 import "./AddProduct.css";
 
 const AddProduct = () => {
+  let [message, setMessage] = useState({});
   const [productTitle, setProductTitle] = useState("");
   const [upc, setUPC] = useState();
   const [unitCost, setUnitCost] = useState();
@@ -12,13 +13,23 @@ const AddProduct = () => {
 
   const addProduct = async () => {
     console.log(JSON.parse(localStorage.getItem("user"))._id);
-    await httpAxios.post("/api/product/addProduct", {
-      productTitle, upc: Number(upc), unitCost: Number(unitCost), productCountries, productFormats, creator: JSON.parse(localStorage.getItem("user"))._id
-    }).then(response => {
-      console.log("Response", response);
-    }).catch(error => {
-      console.log("Error", error);
-    })
+    await httpAxios
+      .post("/api/product/addProduct", {
+        productTitle,
+        upc: Number(upc),
+        unitCost: Number(unitCost),
+        productCountries,
+        productFormats,
+        creator: JSON.parse(localStorage.getItem("user"))._id,
+      })
+      .then((response) => {
+        setMessage({ status: 200, text: response.data.message });
+        console.log("Response", response);
+      })
+      .catch((error) => {
+        setMessage({ status: 400, text: error.response.data.message });
+        console.log("Error", error);
+      });
   };
 
   const setProductCountriesContent = (e, { checked }) => {
@@ -48,6 +59,12 @@ const AddProduct = () => {
 
   return (
     <div className="p-4">
+      {message.status === 400 && message.text && (
+        <Message error header={message.text} />
+      )}
+      {message.status === 200 && message.text && (
+        <Message success header={message.text} />
+      )}
       <Header className="text-center p-4">Add Product</Header>
       <div className="add__product__content">
         <Form>
