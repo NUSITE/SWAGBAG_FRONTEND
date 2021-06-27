@@ -1,6 +1,10 @@
 .navbar__content {
     border-radius: 0 !important;
     height: 5rem;
+    position: fixed;
+    width: 100%;
+    height: 5rem;
+    z-index: 1000;
 }
 
 .navbar__items {
@@ -28,4 +32,8 @@
 .country__dropdown.search.dropdown>.text{
     font-size: 12px;
     width: 72px !important;
+}
+
+.ui.icon.input>input {
+    width: 252px !important;
 }

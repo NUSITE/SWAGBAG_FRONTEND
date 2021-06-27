@@ -62,8 +62,7 @@ const Products = () => {
                 {product.totalOrdersPlaced}
               </Table.Cell>
               <Table.Cell className="table__cell">
-                <Button negative onClick={(e) => deleteProduct(product._id)}>
-                  Delete
+                <Button icon="delete" negative onClick={(e) => deleteProduct(product._id)}>
                 </Button>
               </Table.Cell>
             </Table.Row>

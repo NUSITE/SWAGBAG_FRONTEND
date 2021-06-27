@@ -101,30 +101,14 @@ const Navbar = () => {
             ></Dropdown>
             <Search
               results={searchedProducts}
+              placeholder="Search product name"
               onSearchChange={handleSearchChange}
             ></Search>
           </div>
         </Menu.Item>
-        {/* <Menu.Item>
-          <div>
-            <Dropdown
-              placeholder="Select Format"
-              fluid
-              search
-              selection
-              value={format}
-              options={formatOptions}
-              onClose={e => setFormat(e.target.innerText)}
-            ></Dropdown>
-          </div>
+        <Menu.Item icon="shopping cart">
+          
         </Menu.Item>
-        <Menu.Item>
-          <Search
-          onSearchChange={handleSearchChange}
-          >
-            
-          </Search>
-        </Menu.Item> */}
       </div>
     </Menu>
   );

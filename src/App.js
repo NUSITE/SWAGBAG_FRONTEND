@@ -25,7 +25,6 @@ const App = () => {
   let [showModal, setShowModal] = useState(false);
   let showSidebar = useSelector((state) => state.sidebar.showSidebar);
   let token = localStorage.getItem("token");
-
   useEffect(() => {
     // eslint-disable-next-line no-cond-assign
     if ((user = {} && localStorage.getItem("user"))) {

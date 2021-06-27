@@ -9,6 +9,7 @@ import {
   Button,
   Message,
 } from "semantic-ui-react";
+import httpAxios from "../../axios.intercepors";
 import {
   setAccessToken,
   setAuthorization,
@@ -21,8 +22,8 @@ const Login = () => {
   const [password, setpassword] = useState("");
   const [message, setMessage]=useState("");
   const loginApiCall = async () => {
-    await axios
-      .post("http://localhost:3200/user/login", {
+    await httpAxios
+      .post("/user/login", {
         userEmail,
         password,
       })
